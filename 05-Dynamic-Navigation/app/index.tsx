@@ -1,64 +1,89 @@
-import { View, Text, SafeAreaView, FlatList, StyleSheet,ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { Link } from 'expo-router'
-// import {  } from 'react-native-gesture-handler';
+import { View, Text, SafeAreaView, FlatList, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'expo-router';
 
 interface Item {
     name: string;
-    id: number
+    id: number;
 }
 
 const index = () => {
-
-    const [users, setUsers] = useState<null | []>(null)
+    const [users, setUsers] = useState<null | []>(null);
     const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetch('https://jsonplaceholder.typicode.com/users')
             .then(response => response.json())
             .then(json => {
-                console.log(json)
-                setUsers(json)
+                setUsers(json);
             })
             .catch(() => {
-                setError(true)
+                setError(true);
             })
             .finally(() => {
-                setLoading(false)
-            })
-    }, [])
+                setLoading(false);
+            });
+    }, []);
+
     return (
-        <ScrollView>
-            {/* <Text>index</Text> */}
-            {loading && <Text>Loading...</Text>}
+        <SafeAreaView style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollView}>
+                {loading && (
+                    <ActivityIndicator size="large" color="#007bff" />
+                )}
 
-            {error && <Text>Error occured</Text>}
+                {error && (
+                    <Text style={styles.errorText}>Error occurred while fetching data</Text>
+                )}
 
-            {users && users.map((item: Item) => {
-                return <View style={styles.item} key={item.id}>
-                    <Link href={`details/${item.id}`}>
-                    <Text >{item.name}</Text>
-                    </Link>
-                </View>
-            })}
-        </ScrollView>
-    )
-}
+                {users && users.map((item: Item) => {
+                    return (
+                        <View style={styles.item} key={item.id}>
+                            <Link href={`details/${item.id}`} style={styles.link}>
+                                <Text style={styles.nameText}>{item.name}</Text>
+                            </Link>
+                        </View>
+                    );
+                })}
+            </ScrollView>
+        </SafeAreaView>
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 0,
+        backgroundColor: '#f0f4f8',
+    },
+    scrollView: {
+        padding: 16,
     },
     item: {
-        backgroundColor: '#f9c2ff',
+        backgroundColor: '#fff',
         padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
+        marginVertical: 10,
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 5 },
+        elevation: 2,
     },
-    title: {
-        fontSize: 32,
+    nameText: {
+        fontSize: 18,
+        fontWeight: '500',
+        color: '#333',
+    },
+    link: {
+        textDecorationLine: 'none',
+    },
+    errorText: {
+        color: '#ff4d4d',
+        fontSize: 16,
+        textAlign: 'center',
+        marginTop: 20,
     },
 });
-export default index
+
+export default index;
