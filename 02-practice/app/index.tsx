@@ -1,23 +1,25 @@
 import { useState } from "react";
 import { Text, SafeAreaView, TextInput, TouchableOpacity, FlatList } from "react-native";
 
-function Home() {
-  let [input, setInput] = useState('')
-  const [todo, setTodo] = useState<string[]>([])
+const index = () => {
+  const [input, setInput] = useState<string>('');
+  const [array, setarray] = useState<string[]>([])
   function addtodo() {
-    todo.push(input)
-    setTodo([...todo])
+    array.push(input)
+    setarray([...array])
+    console.log(array);
   }
+  function deletetodo(i: number) {
+    array.splice(i, 1)
+    setarray([...array])
+    console.log('delete', i);
+
+  }
+
+
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        // justifyContent: "center",
-        alignItems: "center",
-        marginTop: 10,
-      }}
-    >
-      <Text style={{ fontSize: 30 }}>todo app</Text>
+    <SafeAreaView className="flex-1 border-2 border-gray-400 items-center justify-center">
+      <Text className="text-2xl">todo app</Text>
       <TextInput
         style={{
           marginTop: 10,
@@ -29,16 +31,21 @@ function Home() {
         onChangeText={setInput}
         value={input}
         placeholder='enter todo ' />
-      <TouchableOpacity><Text onPress={addtodo} style={{ fontSize: 20, marginTop: 10, }}>add button</Text>
-      </TouchableOpacity>
-      <FlatList data={todo}
-        renderItem={({ item, index }) => (
-          <Text style={{ fontSize: 20, marginTop: 10, }}>{item}</Text>
-        )
 
-        } keyExtractor={(item, index) => item.toString()} />
+
+      <TouchableOpacity className="border mb-5"><Text onPress={addtodo} style={{ fontSize: 20, marginTop: 10, }}>add button</Text>
+      </TouchableOpacity>
+
+      <FlatList
+        data={array}
+        renderItem={({ item, index }) => (<Text style={{ fontSize: 20, marginTop: 10, }}>{item} <TouchableOpacity className="border mb-5"><Text onPress={() => deletetodo(index)} style={{ fontSize: 20, marginTop: 10, }}>delete button</Text>
+        </TouchableOpacity></Text>
+        )}
+        keyExtractor={(item, index) => index.toString()}
+      />
 
     </SafeAreaView>
-  );
+  )
 }
-export default Home;
+
+export default index

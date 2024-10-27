@@ -9,7 +9,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text className="font-bold text-5xl bg-slate-500 px-2 pt-3 rounded border">TailwindCSS</Text>
+      <Text>Edit app/index.tsx to edit this screen.</Text>
     </View>
   );
 }
