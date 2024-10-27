@@ -22,13 +22,6 @@ const SingleUser = () => {
     <SafeAreaView style={styles.container}>
       {data ? (
         <View style={styles.card}>
-          {/* User Image */}
-          {/* <View style={styles.imageContainer}>
-            <Image
-              source={{ uri: data.image || 'https://via.placeholder.com/150' }} // Placeholder image if not available
-              style={styles.image}
-            />
-          </View> */}
 
           {/* User Details */}
           <View style={styles.detailsContainer}>

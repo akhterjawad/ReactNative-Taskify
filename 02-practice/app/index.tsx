@@ -107,3 +107,36 @@
 // }
 
 // export default index
+
+import { View, Text } from 'react-native'
+import React, { useEffect, useState } from 'react'
+
+const index = () => {
+    const [data, setdata] = useState<null | []>(null)
+    useEffect(() => {
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then(response => response.json())
+            .then(responseData => setdata(responseData))
+            .catch(error => alert(error))
+    }, [])
+    interface Item {
+        name: string;
+        id: number;
+    }
+
+    return (
+        <View>
+            {data ? data.map((item: Item, index: number) => (
+
+                // <View>
+
+                <Text className='m-5 p-5 border' key={index}>{item.name}</Text>
+                // </View>
+
+            )) : <Text>loading</Text>
+            }
+        </View>
+    )
+}
+
+export default index
