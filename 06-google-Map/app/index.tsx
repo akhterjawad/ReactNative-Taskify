@@ -124,7 +124,7 @@ export default function App() {
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});//Yeh line current location ko retrieve kar rahi hai.
+      let location = await Location.getCurrentPositionAsync({}); //getCurrentPositionAsync function user ki current location ko fetch kar raha hai aur location aur region state mein save kar raha hai. latitudeDelta aur longitudeDelta zoom level define karte hain.
       setLocation(location);
       setRegion({
         latitude: location.coords.latitude,
@@ -155,15 +155,19 @@ export default function App() {
       }
     };
 
+    // Yeh searchPlaces function hai jo places search karta hai Foursquare API se. Headers mein authorization key set ki hai.
+
     fetch(`https://api.foursquare.com/v3/places/search?query=${search}&ll=${location.coords.latitude}%2C${location.coords.longitude}&radius=100000`, options)
 
 
       .then(res => res.json())
       .then(res => {
         setPlaces(res.results)
+        console.log(res.results);
       })
       .catch(err => console.error(err));
     console.log(search)
+    
   }
 
   // single place
@@ -180,12 +184,15 @@ export default function App() {
       latitudeDelta: 0.001,
       longitudeDelta: 0.001,
     })
+    // singlePlace function ek place select karne par uska location set karta hai aur map region update karta hai taake woh us place par zoom kare.
+
+    // "Geocodes" yeh ek object hai jo ek specific jagah (place) ka latitude aur longitude store karta hai. Yeh location coordinates hain jo kisi bhi jagah ko exact map pe locate karne ke liye istemaal hote hain. Is case mein, item.geocodes.main.latitude aur item.geocodes.main.longitude woh values hain jo map pe ek particular location ko point karti hain.
 
   }
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.paragraph}>{text}</Text> */}
+      
       <TextInput
         style={styles.input}
         onChangeText={setSearch}

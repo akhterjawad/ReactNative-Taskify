@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "06-TailwindCSS-and-Google-Map",
-    "slug": "06-TailwindCSS-and-Google-Map",
+    "name": "expo-camera-in-deep",
+    "slug": "expo-camera-in-deep",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
